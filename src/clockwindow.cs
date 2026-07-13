@@ -11,8 +11,8 @@ namespace DesktopClock;
 // the clock itself: a borderless transparent window holding one text block
 public sealed class ClockWindow : Window
 {
-    const double TimeSize = 115;            // lock screen time size at 1080p
-    const double TopRatio = 163.0 / 1080.0; // glyph top sits 163 px from the top on a 1080p screen
+    const double TimeSize = 120;            // lock screen time size at 1080p (7.5rem)
+    const double TopRatio = 165.0 / 1080.0; // glyph top sits 165 px from the top on a 1080p screen
 
     readonly TextBlock _time = new();
 
