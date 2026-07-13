@@ -39,8 +39,8 @@ Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dot
 ## Usage
 
 - The clock appears centered on your desktop, exactly where the lock screen puts it
-- Right-click the tray icon for `About` / `Quit`
-- To start it with Windows: press `Win + R`, type `shell:startup`, and drop a shortcut to the exe there
+- Right-click the tray icon for `About`, `Add to startup`, and `Quit`
+- `Add to startup` makes the clock launch with Windows; pick `Remove from startup` to undo it
 
 ## Building From Source
 

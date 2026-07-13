@@ -24,6 +24,8 @@ internal sealed class TrayMenuWindow : Window
 
         var items = new StackPanel { Margin = new Thickness(4) };
         items.Children.Add(Item("About", () => Choose(about)));
+        items.Children.Add(Item(Startup.Enabled ? "Remove from startup" : "Add to startup",
+                                () => Choose(Startup.Toggle)));
         items.Children.Add(new Border
         {
             Height = 1,
