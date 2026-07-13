@@ -22,7 +22,7 @@ A clean, lightweight replica of the Windows 11 lock screen clock that lives on y
 
 ## Features
 
-- **Pixel-accurate lock screen look**: same font (Segoe UI Variable Display SemiBold), same size, same position, same centered colon as the Windows 11 lock screen
+- **Pixel-accurate lock screen look**: same font (Segoe UI Variable Display SemiBold), same size, same position, same digit spacing and centered colon as the Windows 11 lock screen
 - **Lives on the desktop**: sits behind every window and survives Win+D / Show Desktop, so it never covers your apps
 - **Click-through**: your mouse goes right past it, icons and wallpaper stay fully usable
 - **Adapts to you**: follows your system font and your 12/24-hour time format
