@@ -6,19 +6,15 @@ using static DesktopClock.NativeMethods;
 
 namespace DesktopClock;
 
-// tray icon with an about/quit menu; the only way to interact with the app
+// tray icon; raises MenuRequested when clicked so the app can show its flyout
 internal sealed class TrayIcon : IDisposable
 {
-    const int AboutId = 1;
-    const int QuitId  = 2;
-
     readonly HwndSource _source;
     readonly string _tooltip;
     readonly uint _taskbarCreated;
     IntPtr _icon;
 
-    public event Action? About;
-    public event Action? Quit;
+    public event Action? MenuRequested;
 
     public TrayIcon(HwndSource source, string tooltip)
     {
@@ -63,30 +59,13 @@ internal sealed class TrayIcon : IDisposable
         if (msg == WM_TRAYICON)
         {
             int mouse = (int)(lParam.ToInt64() & 0xFFFF);
-            if (mouse == WM_LBUTTONUP || mouse == WM_RBUTTONUP) ShowMenu();
+            if (mouse == WM_LBUTTONUP || mouse == WM_RBUTTONUP) MenuRequested?.Invoke();
         }
         else if (_taskbarCreated != 0 && msg == (int)_taskbarCreated)
         {
             Add(); // explorer restarted, the tray was wiped
         }
         return IntPtr.Zero;
-    }
-
-    void ShowMenu()
-    {
-        IntPtr menu = CreatePopupMenu();
-        AppendMenuW(menu, MF_STRING, (IntPtr)AboutId, "About");
-        AppendMenuW(menu, MF_SEPARATOR, IntPtr.Zero, null);
-        AppendMenuW(menu, MF_STRING, (IntPtr)QuitId, "Quit");
-        GetCursorPos(out POINT pt);
-        SetForegroundWindow(_source.Handle); // required so the menu dismisses on outside clicks
-        int cmd = TrackPopupMenuEx(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON | TPM_NONOTIFY,
-                                   pt.X, pt.Y, _source.Handle, IntPtr.Zero);
-        PostMessageW(_source.Handle, WM_NULL, IntPtr.Zero, IntPtr.Zero);
-        DestroyMenu(menu);
-
-        if (cmd == AboutId) About?.Invoke();
-        else if (cmd == QuitId) Quit?.Invoke();
     }
 
     public void Dispose()

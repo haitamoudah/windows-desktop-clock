@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace DesktopClock;
 
@@ -23,8 +24,7 @@ public static class Program
             var source = HwndSource.FromHwnd(new WindowInteropHelper(window).Handle)!;
             DesktopPinner.Pin(source);
             tray = new TrayIcon(source, "Windows Desktop Clock");
-            tray.About += ShowAbout;
-            tray.Quit += window.Close;
+            tray.MenuRequested += () => TrayMenuWindow.ShowAt(CursorPosition(window), ShowAbout, window.Close);
         };
         window.Closed += (_, _) => tray?.Dispose();
 
@@ -32,23 +32,16 @@ public static class Program
         app.Run(window);
     }
 
+    static Point CursorPosition(Window reference)
+    {
+        NativeMethods.GetCursorPos(out var pt);
+        var dpi = VisualTreeHelper.GetDpi(reference);
+        return new Point(pt.X / dpi.DpiScaleX, pt.Y / dpi.DpiScaleY);
+    }
+
     static void ShowAbout()
     {
         string version = typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "?";
-        MessageBox.Show(
-            $"""
-            Windows Desktop Clock {version}
-
-            A clean replica of the Windows 11 lock screen clock, living on your desktop.
-
-            • Sits behind every window, survives Win+D and Show Desktop
-            • Click-through: your mouse goes right past it
-            • Follows your system font and 12/24-hour time format
-
-            {RepoUrl}
-            MIT License
-            """,
-            "About Windows Desktop Clock",
-            MessageBoxButton.OK, MessageBoxImage.Information);
+        AboutWindow.Open(version, RepoUrl);
     }
 }
