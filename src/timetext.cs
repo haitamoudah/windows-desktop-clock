@@ -10,7 +10,9 @@ namespace DesktopClock;
 // and the colon is lifted onto the digit centerline
 internal sealed class TimeText : FrameworkElement
 {
-    const double ColonRaiseEm = 0.104;
+    const double ColonRaiseEm = 0.104; // lifts the colon onto the digit centerline
+    const double DigitCellEm  = 0.536; // lock screen digit advance
+    const double ColonCellEm  = 0.255; // lock screen colon advance
 
     GlyphTypeface? _glyphs;
     double _size = 120;
@@ -40,8 +42,6 @@ internal sealed class TimeText : FrameworkElement
         return run?.BuildGeometry().Bounds.Y ?? 0;
     }
 
-    double DigitCell() => _glyphs!.AdvanceWidths[_glyphs.CharacterToGlyphMap['0']] * _size;
-
     GlyphRun? BuildRun(string text)
     {
         if (_glyphs is null || text.Length == 0) return null;
@@ -49,24 +49,17 @@ internal sealed class TimeText : FrameworkElement
         var indices  = new List<ushort>();
         var advances = new List<double>();
         var offsets  = new List<Point>();
-        double cell = DigitCell();
 
         foreach (char c in text)
         {
             if (!_glyphs.CharacterToGlyphMap.TryGetValue(c, out ushort glyph)) continue;
             double advance = _glyphs.AdvanceWidths[glyph] * _size;
-            if (char.IsDigit(c))
-            {
-                indices.Add(glyph);
-                advances.Add(cell);
-                offsets.Add(new Point((cell - advance) / 2, 0)); // center the digit in its cell
-            }
-            else
-            {
-                indices.Add(glyph);
-                advances.Add(advance);
-                offsets.Add(new Point(0, c == ':' ? _size * ColonRaiseEm : 0));
-            }
+            double cell = char.IsDigit(c) ? _size * DigitCellEm
+                        : c == ':'        ? _size * ColonCellEm
+                        :                   advance;
+            indices.Add(glyph);
+            advances.Add(cell);
+            offsets.Add(new Point((cell - advance) / 2, c == ':' ? _size * ColonRaiseEm : 0));
         }
         if (indices.Count == 0) return null;
 
@@ -79,11 +72,13 @@ internal sealed class TimeText : FrameworkElement
     protected override Size MeasureOverride(Size available)
     {
         if (_glyphs is null || _text.Length == 0) return new Size(0, 0);
-        double width = 0, cell = DigitCell();
+        double width = 0;
         foreach (char c in _text)
         {
             if (!_glyphs.CharacterToGlyphMap.TryGetValue(c, out ushort glyph)) continue;
-            width += char.IsDigit(c) ? cell : _glyphs.AdvanceWidths[glyph] * _size;
+            width += char.IsDigit(c) ? _size * DigitCellEm
+                   : c == ':'        ? _size * ColonCellEm
+                   :                   _glyphs.AdvanceWidths[glyph] * _size;
         }
         return new Size(width, _glyphs.Height * _size);
     }
