@@ -6,7 +6,7 @@ A clean, lightweight replica of the Windows 11 lock screen clock that lives on y
 
 <a href="https://github.com/haitamoudah/windows-desktop-clock/releases/latest"><img src="https://img.shields.io/github/v/release/haitamoudah/windows-desktop-clock" alt="latest release" /></a>
 <img src="https://img.shields.io/badge/platform-windows-1A2540" alt="platform" />
-<a href="license"><img src="https://img.shields.io/badge/license-MIT-green" alt="license" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="license" /></a>
 
 <br />
 <br />
@@ -52,4 +52,4 @@ dotnet run
 
 ## License
 
-Released under the [MIT License](license).
+Released under the [MIT License](LICENSE).
