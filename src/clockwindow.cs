@@ -9,8 +9,9 @@ namespace DesktopClock;
 // the clock itself: a borderless transparent window holding one glyph-run element
 public sealed class ClockWindow : Window
 {
-    const double TimeSize = 135;            // lock screen time size at 1080p
-    const double TopRatio = 164.0 / 1080.0; // glyph top sits 164 px from the top on a 1080p screen
+    const double TimeSize   = 135;            // lock screen time size at 1080p
+    const double TopRatio   = 164.0 / 1080.0; // glyph top sits 164 px from the top on a 1080p screen
+    const double LeftNudge  = -7.0;           // the lock screen clock sits 7 px left of true center at 1080p
 
     readonly TimeText _time = new();
 
@@ -58,7 +59,8 @@ public sealed class ClockWindow : Window
 
     void Reposition()
     {
-        Left = Math.Round((SystemParameters.PrimaryScreenWidth - ActualWidth) / 2);
+        double scale = SystemParameters.PrimaryScreenHeight / 1080.0;
+        Left = Math.Round((SystemParameters.PrimaryScreenWidth - ActualWidth) / 2 + LeftNudge * scale);
         Top  = Math.Round(SystemParameters.PrimaryScreenHeight * TopRatio - _time.InkTop());
     }
 

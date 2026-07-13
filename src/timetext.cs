@@ -10,7 +10,7 @@ namespace DesktopClock;
 // and the colon is lifted onto the digit centerline
 internal sealed class TimeText : FrameworkElement
 {
-    const double ColonRaiseEm = 0.104; // lifts the colon onto the digit centerline
+    const double ColonRaiseEm = 0.0966; // lifts the colon onto the digit centerline
     const double DigitCellEm  = 0.536; // lock screen digit advance
     const double ColonCellEm  = 0.255; // lock screen colon advance
 
