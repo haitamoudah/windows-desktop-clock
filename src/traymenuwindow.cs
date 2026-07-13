@@ -9,6 +9,8 @@ namespace DesktopClock;
 // small dark flyout shown from the tray icon, styled after windows 11 menus
 internal sealed class TrayMenuWindow : Window
 {
+    bool _closing;
+
     TrayMenuWindow(Action about, Action quit)
     {
         WindowStyle           = WindowStyle.None;
@@ -21,14 +23,14 @@ internal sealed class TrayMenuWindow : Window
         WindowStartupLocation = WindowStartupLocation.Manual;
 
         var items = new StackPanel { Margin = new Thickness(4) };
-        items.Children.Add(Item("About", () => { Close(); about(); }));
+        items.Children.Add(Item("About", () => Choose(about)));
         items.Children.Add(new Border
         {
             Height = 1,
             Background = new SolidColorBrush(Color.FromArgb(0x28, 0xFF, 0xFF, 0xFF)),
             Margin = new Thickness(8, 3, 8, 3)
         });
-        items.Children.Add(Item("Quit", () => { Close(); quit(); }));
+        items.Children.Add(Item("Quit", () => Choose(quit)));
 
         var shadow = new DropShadowEffect
         { BlurRadius = 16, ShadowDepth = 2, Opacity = 0.5, Color = Colors.Black };
@@ -45,7 +47,22 @@ internal sealed class TrayMenuWindow : Window
             Effect          = shadow
         };
 
-        Deactivated += (_, _) => Close();
+        Deactivated += (_, _) => CloseOnce();
+    }
+
+    // Close is not reentrant: picking an item closes the menu, which deactivates it,
+    // and the Deactivated handler must not call Close again while it is closing
+    void CloseOnce()
+    {
+        if (_closing) return;
+        _closing = true;
+        Close();
+    }
+
+    void Choose(Action action)
+    {
+        CloseOnce();
+        Dispatcher.BeginInvoke(action); // run after the close finishes
     }
 
     static UIElement Item(string label, Action click)
