@@ -75,9 +75,9 @@ internal sealed class TrayIcon : IDisposable
     void ShowMenu()
     {
         IntPtr menu = CreatePopupMenu();
-        AppendMenuW(menu, MF_STRING, (IntPtr)AboutId, "about");
+        AppendMenuW(menu, MF_STRING, (IntPtr)AboutId, "About");
         AppendMenuW(menu, MF_SEPARATOR, IntPtr.Zero, null);
-        AppendMenuW(menu, MF_STRING, (IntPtr)QuitId, "quit");
+        AppendMenuW(menu, MF_STRING, (IntPtr)QuitId, "Quit");
         GetCursorPos(out POINT pt);
         SetForegroundWindow(_source.Handle); // required so the menu dismisses on outside clicks
         int cmd = TrackPopupMenuEx(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON | TPM_NONOTIFY,

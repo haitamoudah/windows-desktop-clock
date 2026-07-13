@@ -22,7 +22,7 @@ public static class Program
         {
             var source = HwndSource.FromHwnd(new WindowInteropHelper(window).Handle)!;
             DesktopPinner.Pin(source);
-            tray = new TrayIcon(source, "windows desktop clock");
+            tray = new TrayIcon(source, "Windows Desktop Clock");
             tray.About += ShowAbout;
             tray.Quit += window.Close;
         };
@@ -37,18 +37,18 @@ public static class Program
         string version = typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "?";
         MessageBox.Show(
             $"""
-            windows-desktop-clock {version}
+            Windows Desktop Clock {version}
 
-            a clean replica of the windows 11 lock screen clock, living on your desktop.
+            A clean replica of the Windows 11 lock screen clock, living on your desktop.
 
-            • sits behind every window, survives win+d / show desktop
-            • click-through: your mouse goes right past it
-            • follows your system font and 12/24-hour format
+            • Sits behind every window, survives Win+D and Show Desktop
+            • Click-through: your mouse goes right past it
+            • Follows your system font and 12/24-hour time format
 
             {RepoUrl}
-            mit license
+            MIT License
             """,
-            "about windows-desktop-clock",
+            "About Windows Desktop Clock",
             MessageBoxButton.OK, MessageBoxImage.Information);
     }
 }
