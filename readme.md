@@ -1,34 +1,34 @@
-# windows-desktop-clock
+# Windows Desktop Clock
 
-a clean, lightweight replica of the windows 11 lock screen clock that lives on your desktop.
+A clean, lightweight replica of the Windows 11 lock screen clock that lives on your desktop.
 
-![clock on the windows 11 light wallpaper](assets/screenshot.png)
+![Clock on the Windows 11 light wallpaper](assets/screenshot.png)
 
-![clock on the windows 11 dark wallpaper](assets/screenshot-dark.png)
+![Clock on the Windows 11 dark wallpaper](assets/screenshot-dark.png)
 
-## what it does
+## What It Does
 
-- shows the time exactly like the windows 11 lock screen — same font, same size, same position
-- sits on the desktop itself, behind every window: it never covers your apps, and `win + d` / show desktop can't hide it
-- click-through: your mouse goes right past it, icons and wallpaper stay fully usable
-- follows your system font and your 12/24-hour format
-- tiny footprint: no ui framework bloat beyond wpf, wakes once per minute
+- Shows the time exactly like the Windows 11 lock screen: same font, same size, same position
+- Sits on the desktop itself, behind every window. It never covers your apps, and Win+D / Show Desktop can't hide it
+- Click-through: your mouse goes right past it, icons and wallpaper stay fully usable
+- Follows your system font and your 12/24-hour time format
+- Tiny footprint: wakes once per minute
 
-## download
+## Download
 
-1. grab the latest zip from [releases](https://github.com/haitamoudah/windows-desktop-clock/releases)
-2. extract it anywhere
-3. run `windows-desktop-clock.exe`
+1. Grab the latest zip from [releases](https://github.com/haitamoudah/windows-desktop-clock/releases)
+2. Extract it anywhere
+3. Run `windows-desktop-clock.exe`
 
-requires the [.net 10 desktop runtime](https://dotnet.microsoft.com/download/dotnet/10.0) — windows offers to install it automatically if it's missing.
+Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0). Windows offers to install it automatically if it's missing.
 
-## usage
+## Usage
 
-- the clock appears centered on your desktop, exactly where the lock screen puts it
-- right-click the tray icon for `about` / `quit`
-- to start it with windows: `win + r` → `shell:startup` → drop a shortcut to the exe there
+- The clock appears centered on your desktop, exactly where the lock screen puts it
+- Right-click the tray icon for `About` / `Quit`
+- To start it with Windows: `Win + R`, type `shell:startup`, and drop a shortcut to the exe there
 
-## build from source
+## Build From Source
 
 ```
 git clone https://github.com/haitamoudah/windows-desktop-clock.git
@@ -36,6 +36,6 @@ cd windows-desktop-clock
 dotnet run
 ```
 
-## license
+## License
 
-[mit](license)
+[MIT](license)
